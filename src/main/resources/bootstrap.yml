@@ -1,3 +1,6 @@
 spring:
   application:
     name: microservice
+  cloud:
+    config:
+      fail-fast: true
