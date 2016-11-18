@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.github.vdubois</groupId>
-	<artifactId>spring-cloud-sample-microservice</artifactId>
+	<artifactId>spring-cloud-sample-amazin-client</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>spring-cloud-sample-microservice</name>
+	<name>spring-cloud-sample-amazin-client</name>
 	<description>Spring Boot Microservice</description>
 
 	<parent>
