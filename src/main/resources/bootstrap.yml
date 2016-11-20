@@ -1,6 +1,7 @@
 spring:
   application:
-    name: microservice
+    name: amazin-client
   cloud:
     config:
       fail-fast: true
+      uri: http://config:8888
