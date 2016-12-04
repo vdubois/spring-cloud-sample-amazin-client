@@ -1,6 +1,5 @@
 package io.github.vdubois.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

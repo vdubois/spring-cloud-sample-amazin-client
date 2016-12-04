@@ -1,16 +1,15 @@
 package io.github.vdubois.controller;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import io.github.vdubois.configuration.RibbonConfiguration;
-import io.github.vdubois.model.Book;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.github.vdubois.model.BookDetails;
+import io.github.vdubois.service.BooksIntegrationService;
+import io.github.vdubois.service.CommentsIntegrationService;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
+import rx.Observable;
+import rx.Single;
 
 /**
  * Created by vdubois on 08/11/16.
@@ -19,36 +18,27 @@ import java.util.Map;
 @RibbonClient(name = "books-service", configuration = RibbonConfiguration.class)
 public class AmazinBookClientRestController {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private BooksIntegrationService booksIntegrationService;
 
-//    @HystrixCommand(fallbackMethod = "fallbackHello")
-//    @RequestMapping(value = "/hi", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public String hello() {
-//        return restTemplate.getForObject("http://recommendations-service/hello", String.class);
-//    }
-//
-//    public String fallbackHello() {
-//        return "Oh hey, nice to see you !";
-//    }
+    private CommentsIntegrationService commentsIntegrationService;
+
+    public AmazinBookClientRestController(BooksIntegrationService booksIntegrationService, CommentsIntegrationService commentsIntegrationService) {
+        this.booksIntegrationService = booksIntegrationService;
+        this.commentsIntegrationService = commentsIntegrationService;
+    }
 
     @GetMapping("/books/{isbn}")
-    @HystrixCommand(fallbackMethod = "findBookByIsbnFallback")
-    public Book getBookInformationsByIsbn(String isbn) {
-        Book bookBasicInfo = findBookByIsbn(isbn);
-        return bookBasicInfo;
+    public Single<BookDetails> getBookInformationsByIsbn(@PathVariable String isbn) {
+        Observable<BookDetails> details = Observable.zip(
+                booksIntegrationService.findBookByIsbn(isbn), commentsIntegrationService.findCommentsForBookWithIsbn(isbn),
+                (book, comments) -> {
+                    BookDetails resultBook = new BookDetails();
+                    resultBook.setBook(book);
+                    resultBook.setComments(comments);
+                    return resultBook;
+                }
+        );
+        return details.toSingle();
     }
 
-    @HystrixCommand(fallbackMethod = "findBookByIsbnFallback")
-    public Book findBookByIsbn(String isbn) {
-        Map<String, String> urlVariables = new HashMap<>();
-        urlVariables.put("isbn", isbn);
-        return restTemplate.getForObject("http://books-service/books/search/findOneByIsbn", Book.class, urlVariables);
-    }
-
-    public Book findBookByIsbnFallback(String isbn) {
-        return new Book();
-    }
-
-//    public Set<Author> getAuthors
 }
