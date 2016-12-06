@@ -1,5 +1,6 @@
 package io.github.vdubois.service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import io.github.vdubois.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import rx.Observable;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,7 +23,12 @@ public class CommentsIntegrationService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @HystrixCommand(fallbackMethod = "findCommentsForBookWithIsbnFallback")
     public Observable<List<Comment>> findCommentsForBookWithIsbn(String isbn) {
-        return rx.Observable.just(restTemplate.exchange("http://comments-service/books/" + isbn + "/comments", HttpMethod.GET, null, new ParameterizedTypeReference<List<Comment>>() {}).getBody());
+        return Observable.just(restTemplate.exchange("http://comments-service/books/" + isbn + "/comments", HttpMethod.GET, null, new ParameterizedTypeReference<List<Comment>>() {}).getBody());
+    }
+
+    public Observable<List<Comment>> findCommentsForBookWithIsbnFallback(String isbn) {
+        return Observable.just(Collections.emptyList());
     }
 }
