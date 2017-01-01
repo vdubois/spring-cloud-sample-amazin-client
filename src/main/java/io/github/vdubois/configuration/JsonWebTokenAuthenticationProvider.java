@@ -49,7 +49,8 @@ public class JsonWebTokenAuthenticationProvider implements AuthenticationProvide
 
         if (authTokenDetails != null) {
             List<GrantedAuthority> authorities = authTokenDetails.getRoleNames().stream()
-                    .map(roleName -> new SimpleGrantedAuthority(roleName)).collect(Collectors.toList());
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
             principal = new User(authTokenDetails.getEmail(), "", authorities);
         }
 
