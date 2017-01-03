@@ -1,4 +1,4 @@
-package io.github.vdubois.model;
+package io.github.vdubois.security.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Author {
+public class Recommendation {
 
-    private String name;
+    private String isbn;
 }

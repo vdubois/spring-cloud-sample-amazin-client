@@ -1,10 +1,10 @@
 package io.github.vdubois.controller;
 
 import io.github.vdubois.configuration.RibbonConfiguration;
-import io.github.vdubois.model.BookDetails;
-import io.github.vdubois.service.BooksIntegrationService;
-import io.github.vdubois.service.CommentsIntegrationService;
-import io.github.vdubois.service.RecommendationsIntegrationService;
+import io.github.vdubois.security.model.BookDetails;
+import io.github.vdubois.security.service.BooksIntegrationService;
+import io.github.vdubois.security.service.CommentsIntegrationService;
+import io.github.vdubois.security.service.RecommendationsIntegrationService;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
