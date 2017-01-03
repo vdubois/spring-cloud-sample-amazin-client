@@ -1,8 +1,10 @@
 package io.github.vdubois.controller;
 
-import io.github.vdubois.dto.AuthTokenDTO;
-import io.github.vdubois.dto.AuthenticationDTO;
-import io.github.vdubois.service.AuthenticationIntegrationService;
+import io.github.vdubois.security.model.AuthTokenDTO;
+import io.github.vdubois.security.model.AuthenticationDTO;
+import io.github.vdubois.security.service.AuthenticationIntegrationService;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +20,7 @@ public class AuthenticationController {
         this.authenticationIntegrationService = authenticationIntegrationService;
     }
 
+    @PostMapping(value = "/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE)
     public AuthTokenDTO authenticate(@RequestBody AuthenticationDTO authenticationDTO) {
         // Authenticate the user
         AuthTokenDTO authToken = authenticationIntegrationService.authenticateUser(authenticationDTO);

@@ -1,5 +1,6 @@
 package io.github.vdubois.configuration;
 
+import io.github.vdubois.security.config.JsonWebTokenSecurityConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
