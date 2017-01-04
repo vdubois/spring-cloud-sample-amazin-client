@@ -1,7 +1,7 @@
-package io.github.vdubois.security.service;
+package io.github.vdubois.service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import io.github.vdubois.security.model.Recommendation;
+import io.github.vdubois.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,18 +17,18 @@ import java.util.List;
  * Created by vdubois on 04/12/16.
  */
 @Service
-public class RecommendationsIntegrationService {
+public class CommentsIntegrationService {
 
     @LoadBalanced
     @Autowired
     private RestTemplate restTemplate;
 
-    @HystrixCommand(fallbackMethod = "findRecommendationsForBookWithIsbnFallback")
-    public Observable<List<Recommendation>> findRecommendationsForBookWithIsbn(String isbn) {
-        return Observable.just(restTemplate.exchange("http://recommendations-service/books/" + isbn + "/recommendations", HttpMethod.GET, null, new ParameterizedTypeReference<List<Recommendation>>() {}).getBody());
+    @HystrixCommand(fallbackMethod = "findCommentsForBookWithIsbnFallback")
+    public Observable<List<Comment>> findCommentsForBookWithIsbn(String isbn) {
+        return Observable.just(restTemplate.exchange("http://comments-service/books/" + isbn + "/comments", HttpMethod.GET, null, new ParameterizedTypeReference<List<Comment>>() {}).getBody());
     }
 
-    public Observable<List<Recommendation>> findRecommendationsForBookWithIsbnFallback(String isbn) {
+    public Observable<List<Comment>> findCommentsForBookWithIsbnFallback(String isbn) {
         return Observable.just(Collections.emptyList());
     }
 }

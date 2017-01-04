@@ -1,7 +1,7 @@
-package io.github.vdubois.security.service;
+package io.github.vdubois.service;
 
-import io.github.vdubois.security.model.AuthTokenDTO;
-import io.github.vdubois.security.model.AuthenticationDTO;
+import io.github.vdubois.model.AuthTokenDTO;
+import io.github.vdubois.model.AuthenticationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.HttpEntity;

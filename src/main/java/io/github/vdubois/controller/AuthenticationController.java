@@ -1,8 +1,8 @@
 package io.github.vdubois.controller;
 
-import io.github.vdubois.security.model.AuthTokenDTO;
-import io.github.vdubois.security.model.AuthenticationDTO;
-import io.github.vdubois.security.service.AuthenticationIntegrationService;
+import io.github.vdubois.model.AuthTokenDTO;
+import io.github.vdubois.model.AuthenticationDTO;
+import io.github.vdubois.service.AuthenticationIntegrationService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

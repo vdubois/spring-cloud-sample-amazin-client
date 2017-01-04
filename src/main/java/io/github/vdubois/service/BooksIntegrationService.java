@@ -1,8 +1,8 @@
-package io.github.vdubois.security.service;
+package io.github.vdubois.service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import io.github.vdubois.security.model.Author;
-import io.github.vdubois.security.model.Book;
+import io.github.vdubois.model.Author;
+import io.github.vdubois.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.HttpMethod;
