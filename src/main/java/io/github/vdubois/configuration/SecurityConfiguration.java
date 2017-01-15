@@ -20,10 +20,10 @@ public class SecurityConfiguration extends JsonWebTokenSecurityConfiguration {
         http.authorizeRequests()
 
                 // allow anonymous access to /authenticate endpoint
-                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/api/v*/authenticate").permitAll()
 
                 // allow anonymous to common static resources
-                .antMatchers(HttpMethod.GET, "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/service-info")
+                .antMatchers(HttpMethod.GET, "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/api/v*/service-info")
                 .permitAll()
 
                 // authenticate all other requests

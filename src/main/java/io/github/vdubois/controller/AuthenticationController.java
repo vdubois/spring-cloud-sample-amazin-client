@@ -6,12 +6,14 @@ import io.github.vdubois.service.AuthenticationIntegrationService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by vdubois on 31/12/16.
  */
 @RestController
+@RequestMapping("/api/v1")
 public class AuthenticationController {
 
     private AuthenticationIntegrationService authenticationIntegrationService;
