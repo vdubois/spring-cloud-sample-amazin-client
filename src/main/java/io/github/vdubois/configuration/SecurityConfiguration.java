@@ -26,6 +26,8 @@ public class SecurityConfiguration extends JsonWebTokenSecurityConfiguration {
                 .antMatchers(HttpMethod.GET, "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/api/v*/service-info")
                 .permitAll()
 
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
+
                 // authenticate all other requests
                 .anyRequest().authenticated();
     }
