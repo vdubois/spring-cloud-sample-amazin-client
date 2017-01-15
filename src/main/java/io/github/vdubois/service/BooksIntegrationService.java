@@ -5,6 +5,7 @@ import io.github.vdubois.model.Author;
 import io.github.vdubois.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,8 +13,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import rx.Observable;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 
 /**
@@ -44,5 +47,17 @@ public class BooksIntegrationService {
         author.setName("Jack London");
         book.setAuthors(new HashSet<Author>(){{add(author);}});
         return Observable.just(book);
+    }
+
+    @HystrixCommand(fallbackMethod = "findAllBooksFallback")
+    public Observable<List<Book>> findAllBooks() {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://books-service/books");
+        ParameterizedTypeReference<List<Book>> mappingType = new ParameterizedTypeReference<List<Book>>() {
+        };
+        return Observable.just(restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET, null, mappingType).getBody());
+    }
+
+    public Observable<List<Book>> findAllBooksFallback() {
+        return Observable.just(Collections.emptyList());
     }
 }
